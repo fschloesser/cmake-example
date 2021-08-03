@@ -9,5 +9,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(cmake-example VERSION 1.0)
 
 # add an executable with name and all required source files
-add_executable(cmake-example main.cpp)
+add_executable(hello main.cpp)
 
