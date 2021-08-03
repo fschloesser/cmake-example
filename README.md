@@ -62,3 +62,13 @@ It holds all your source files and helps you keep organized.
 For that we split the `Apple.h` file into a header and a `.cpp` file and place `Apple.cpp` into the `src` folder.
 
 Then we also add the information on how to find this to our CMakeLists.txt file.
+
+# CMake Tutorial Chapter 4 - Adding a library
+
+Creating a library from multiple source files allows you to bundle and reuse functions in other projects.
+
+We move the Apple files into a separate folder called `apple` and then create a library by using the `add_library` command.
+
+We tell the library where to find its include files, and since the `apple` library now knows that, the `hello` executable does not need this information anymore.
+
+Then we link the `hello` executable to the `apple` library.

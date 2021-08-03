@@ -8,11 +8,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # set the name and version of your project
 project(cmake-example VERSION 1.0)
 
-# find all files ending in .cpp from the src folder and place them in the SRC_FILES variable
-file(GLOB_RECURSE SRC_FILES src/*.cpp)
+# create a static library holding the Apple files
+add_library(apple STATIC apple/Apple.cpp)
+# include header files from apple/include folder; CMAKE_CURRENT_SOURCE_DIR is the location of this CMakeLists.txt
+target_include_directories(apple PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/apple/include)
 
 # add an executable with name and all required source files
-add_executable(hello main.cpp ${SRC_FILES})
-
-# include header files from include folder; CMAKE_CURRENT_SOURCE_DIR is the location of the current CMakeLists.txt
-target_include_directories(hello PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+add_executable(hello main.cpp)
+# link the apple library to the hello executable
+target_link_libraries(hello PUBLIC apple)
