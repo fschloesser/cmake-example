@@ -11,5 +11,5 @@ project(cmake-example VERSION 1.0)
 # add an executable with name and all required source files
 add_executable(hello main.cpp)
 
-# include header files from include folder; CMAKE_CURRENT_SOURCE_DIR
+# include header files from include folder; CMAKE_CURRENT_SOURCE_DIR is the location of the current CMakeLists.txt
 target_include_directories(hello PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
