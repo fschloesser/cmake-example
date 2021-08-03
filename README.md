@@ -72,3 +72,7 @@ We move the Apple files into a separate folder called `apple` and then create a 
 We tell the library where to find its include files, and since the `apple` library now knows that, the `hello` executable does not need this information anymore.
 
 Then we link the `hello` executable to the `apple` library.
+
+# CMake Tutorial Chapter 5 - Independent library in subdirectory
+
+Now we can also move the information about how to build the library from the main `CMakeLists.txt` file to its subfolder `apple` and include it with `add_subdirectory`.
