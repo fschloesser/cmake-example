@@ -48,3 +48,9 @@ make
 This build folder can safely be deleted if you want a fresh build and keeps your project folder clean.
 Note: The folder does not need to be called `build`, but for this tutorial we will keep that name.
 
+# CMake Tutorial Chapter 2 - Adding a header file
+
+Now we are adding an `include` folder that holds the header files and tell CMake where these are with the `target_include_directories`.
+Here the target is `hello`, that we declared with the `add_executable` command.
+Targets can depend on each other and are either executables or libraries.
+
