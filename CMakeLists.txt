@@ -13,4 +13,3 @@ add_executable(hello main.cpp)
 
 # include header files from include folder; CMAKE_CURRENT_SOURCE_DIR
 target_include_directories(hello PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
