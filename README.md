@@ -54,3 +54,11 @@ Now we are adding an `include` folder that holds the header files and tell CMake
 Here the target is `hello`, that we declared with the `add_executable` command.
 Targets can depend on each other and are either executables or libraries.
 
+# CMake Tutorial Chapter 2 - Having multiple source files
+
+If you have multiple source files, you want to keep them in a separate folder, we will call it `src`.
+It holds all your source files and helps you keep organized.
+
+For that we split the `Apple.h` file into a header and a `.cpp` file and place `Apple.cpp` into the `src` folder.
+
+Then we also add the information on how to find this to our CMakeLists.txt file.
