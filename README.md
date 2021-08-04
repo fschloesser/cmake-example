@@ -29,7 +29,7 @@ make
 ```
 
 CMake will generate a bunch of files
-- a binary again called `cmake-example`
+- a binary called `cmake-example`
 - a `Makefile` that is used to compile
 - a folder `CMakeFiles` that holds TODO
 - a `CMakeCache.txt` that contains all cached CMake variables
@@ -76,3 +76,16 @@ Then we link the `hello` executable to the `apple` library.
 # CMake Tutorial Chapter 5 - Independent library in subdirectory
 
 Now we can also move the information about how to build the library from the main `CMakeLists.txt` file to its subfolder `apple` and include it with `add_subdirectory`.
+
+# CMake Tutorial Chapter 6 - Depending on an external library
+
+Sometimes you just need to link an external library, for that you can use the `find_package` command.
+This command has two modes, Module mode and Config mode, that use `FindXXX.cmake` and `XXXConfig.cmake` respectively.
+If your library was found successfully you can use variables like `XXX_INCLUDE_DIR` and `XXX_LIBRARIES` for linking and including into your target.
+Some packages also export targets instead of these variables.
+There is no works for all here, you need to read the documentation.
+
+Notes:
+- If you add the `REQUIRED` parameter into the `find_package` call cmake will fail and stop if the package is not found.
+- You can specify subcomponents and a (minimal) version.
+- There are many Modules already included in CMake but you can also write your own `FindXXX.cmake` file for custom packages.
