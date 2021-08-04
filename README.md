@@ -89,3 +89,7 @@ Notes:
 - If you add the `REQUIRED` parameter into the `find_package` call cmake will fail and stop if the package is not found.
 - You can specify subcomponents and a (minimal) version.
 - There are many Modules already included in CMake but you can also write your own `FindXXX.cmake` file for custom packages.
+
+# CMake Tutorial Chapter 7 - Depending on an nonstandard external library
+
+If `find_package` does not work, you can find the library and its include directories yourself and add them.

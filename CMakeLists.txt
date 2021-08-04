@@ -16,11 +16,17 @@ find_package(Boost 1.72 REQUIRED COMPONENTS chrono)
 # Caveat: Boost needs Threads, so add this as well
 find_package(Threads REQUIRED)
 
+# explicitly finding your nonstandard package, giving the name of the library with the lib prefix removed; by default it searches in standard paths, but you can give more locations if you want or need
+find_library(ZLIB z REQUIRED PATHS /usr/lib/)
+# manually set include dir
+set(ZLIB_INCLUDE_DIR /usr/include)
+
 # add an executable with name and all required source files
 add_executable(hello main.cpp)
 # link the to the hello executable
 # - the apple library
 # - the boost libraries and dependencies
-target_link_libraries(hello PUBLIC apple Boost::chrono ${CMAKE_THREAD_LIBS_INIT})
+# - the zlib library
+target_link_libraries(hello PUBLIC apple Boost::chrono ${CMAKE_THREAD_LIBS_INIT} ${ZLIB})
 # include the boost headers for target hello
-target_include_directories(hello PUBLIC ${Boost_INCLUDE_DIRS})
+target_include_directories(hello PUBLIC ${Boost_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIR})

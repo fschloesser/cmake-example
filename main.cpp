@@ -1,5 +1,6 @@
 #include <iostream>
 #include <boost/asio.hpp>
+#include "zlib.h"
 #include "Apple.h"
 
 int main() {
