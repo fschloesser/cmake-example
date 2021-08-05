@@ -8,6 +8,7 @@ set(CXX_STANDARD_REQUIRED ON)
 add_executable(tbb-example tbb-example.cpp)
 
 set(THIS_TBB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/tbb/)
+list(APPEND CMAKE_MODULE_PATH ${THIS_TBB_DIR}/common/cmake/modules/)
 
 # find_package will search for available TBBConfig using variables CMAKE_PREFIX_PATH and TBB_DIR.
 # if find_package fails, the user can pass TBB_LIBRARY_DIR and TBB_INCLUDE_DIR
@@ -16,7 +17,7 @@ find_package(TBB 2021 QUIET COMPONENTS tbb)
 if(TBB_FOUND)
     set(TBB_IMPORTED_TARGET TBB::tbb)
 else()
-    ## TBB 2020
+    # TBB 2020
     #find_library(TBB_LIBRARY
     #    NAMES tbb libtbb.so.2
     #    HINTS ${TBB_LIBRARY_DIR})
@@ -28,10 +29,10 @@ else()
 
     if(TBB_LIBRARY)
         find_path(TBB_INCLUDE_DIR
-            NAMES oneapi/tbb/tick_count.h
+            # NAMES oneapi/tbb/tick_count.h # TBB 2021
+            NAMES tbb/tick_count.h
             REQUIRED
             HINTS ${THIS_TBB_DIR}/include)
-        message(STATUS "HOLA ${TBB_INCLUDE_DIR}")
     else()
         option(TBB_TEST OFF)
         option(TBB_EXAMPLES OFF)
