@@ -7,6 +7,8 @@ set(CXX_STANDARD_REQUIRED ON)
 
 add_executable(tbb-example tbb-example.cpp)
 
+set(THIS_TBB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/tbb/)
+
 # find_package will search for available TBBConfig using variables CMAKE_PREFIX_PATH and TBB_DIR.
 # if find_package fails, the user can pass TBB_LIBRARY_DIR and TBB_INCLUDE_DIR
 find_package(TBB 2 QUIET COMPONENTS tbb)
@@ -15,13 +17,17 @@ if(TBB_FOUND)
 else()
     find_library(TBB_LIBRARY
         NAMES tbb libtbb.so.2
-        REQUIRED
         PATHS ${TBB_LIBRARY_DIR})
     set(TBB_IMPORTED_TARGET ${TBB_LIBRARY})
-    find_path(TBB_INCLUDE_DIR
-        NAMES tbb/tick_count.h
-        REQUIRED
-        PATHS ${TBB_INCLUDE_DIR})
+
+    if(TBB_LIBRARY)
+        find_path(TBB_INCLUDE_DIR
+            NAMES tbb/tick_count.h
+            REQUIRED
+            PATHS ${TBB_INCLUDE_DIR} ${THIS_TBB_DIR})
+    else()
+        add_subdirectory(${THIS_TBB_DIR})
+    endif()
 endif()
 
 
