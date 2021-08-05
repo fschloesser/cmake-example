@@ -8,6 +8,7 @@ set(CXX_STANDARD_REQUIRED ON)
 add_executable(tbb-example tbb-example.cpp)
 
 set(THIS_TBB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/tbb/)
+list(APPEND CMAKE_MODULE_PATH ${THIS_TBB_DIR}/common/cmake/modules/)
 
 # find_package will search for available TBBConfig using variables CMAKE_PREFIX_PATH and TBB_DIR.
 # if find_package fails, the user can pass TBB_LIBRARY_DIR and TBB_INCLUDE_DIR
