@@ -20,7 +20,7 @@ if(TBB_FOUND)
 else()
     # TBB 2021
     find_library(TBB_LIBRARY
-        NAMES libtbb.so.12 tbb
+        NAMES libtbb.so.12
         HINTS ${TBB_LIBRARY_DIR})
     set(TBB_IMPORTED_TARGET ${TBB_LIBRARY})
     set(TBB_VERSION 2021)
@@ -36,6 +36,7 @@ else()
         set(BUILD_SHARED_LIBS OFF)
         add_subdirectory(${THIS_TBB_DIR} EXCLUDE_FROM_ALL)
         set(TBB_IMPORTED_TARGET TBB::tbb)
+    endif()
 endif()
 message(STATUS "---------")
 message(STATUS "INFO: TBB IMPORTED TARGET ${TBB_IMPORTED_TARGET}")
