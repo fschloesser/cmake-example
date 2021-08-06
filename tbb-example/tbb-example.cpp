@@ -55,6 +55,19 @@ typedef long long value;
 
 /////////////////////// Serial methods ////////////////////////
 
+//! Plain serial sum
+value SerialFib(int n) {
+    if (n < 2)
+        return n;
+    value a = 0, b = 1, sum;
+    int i;
+    for (i = 2; i <= n; i++) { // n is really index of Fibonacci number
+        sum = a + b;
+        a = b;
+        b = sum;
+    }
+    return sum;
+}
 // GCC 4.8 C++ standard library implements std::this_thread::yield as no-op.
 #if __TBB_GLIBCXX_THIS_THREAD_YIELD_BROKEN
 static inline void yield() {
@@ -131,6 +144,7 @@ int main(int argc, char *argv[]) {
     if (Verbose)
         printf("Fibonacci numbers example. Generating %d numbers..\n", NumbersCount);
 
+    result = Measure("Serial loop", SerialFib, NumbersCount);
     sum = Measure("Serial vector", SerialVectorFib, NumbersCount);
     assert(result == sum);
 #ifdef __GNUC__
@@ -140,7 +154,6 @@ int main(int argc, char *argv[]) {
         if (Verbose)
             printf("Fibonacci number #%d modulo 2^64 is %I64d\n\n", NumbersCount, result);
 #endif
-    }
     if (!Verbose)
         printf("TEST PASSED\n");
     // flush to prevent bufferization on exit

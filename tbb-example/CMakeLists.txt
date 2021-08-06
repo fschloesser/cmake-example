@@ -13,8 +13,8 @@ list(APPEND CMAKE_MODULE_PATH ${THIS_TBB_DIR}/common/cmake/modules/)
 # find_package will search for available TBBConfig using variables CMAKE_PREFIX_PATH and TBB_DIR.
 # if find_package fails, the user can pass TBB_LIBRARY_DIR and TBB_INCLUDE_DIR
 #find_package(TBB 2020 QUIET COMPONENTS tbb)
-#find_package(TBB 2021 QUIET COMPONENTS tbb)
-find_package(TBB QUIET COMPONENTS tbb)
+find_package(TBB 2021 QUIET COMPONENTS tbb)
+#find_package(TBB QUIET COMPONENTS tbb)
 if(TBB_FOUND)
     set(TBB_IMPORTED_TARGET TBB::tbb)
     message(STATUS "INFO: TBB VERSION ${TBB_VERSION}")
@@ -34,15 +34,15 @@ else()
     else()
         if(TBB_LIBRARY)
             # TBB 2020
-            find_library(TBB_LIBRARY
-                NAMES libtbb.so.2 tbb
-                HINTS ${TBB_LIBRARY_DIR})
-            set(TBB_VERSION 2020)
-            if(TBB_LIBRARY)
-                find_path(TBB_INCLUDE_DIR
-                    NAMES tbb/tick_count.h # TBB 2020
-                    REQUIRED
-                    HINTS ${THIS_TBB_DIR}/include)
+            #find_library(TBB_LIBRARY
+            #    NAMES libtbb.so.2 tbb
+            #    HINTS ${TBB_LIBRARY_DIR})
+            #set(TBB_VERSION 2020)
+            #if(TBB_LIBRARY)
+            #    find_path(TBB_INCLUDE_DIR
+            #        NAMES tbb/tick_count.h # TBB 2020
+            #        REQUIRED
+            #        HINTS ${THIS_TBB_DIR}/include)
             else()
                 option(TBB_TEST OFF)
                 option(TBB_EXAMPLES OFF)
@@ -50,7 +50,7 @@ else()
                 set(BUILD_SHARED_LIBS OFF)
                 add_subdirectory(${THIS_TBB_DIR} EXCLUDE_FROM_ALL)
                 set(TBB_IMPORTED_TARGET TBB::tbb)
-            endif()
+                #endif()
         endif()
     endif()
 endif()
