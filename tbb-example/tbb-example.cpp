@@ -35,6 +35,7 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
+#include "tbb/tbb_stddef.h" // defines TBB_INTERFACE_VERSION 11102
 #include "tbb/task.h"
 #include "tbb/tick_count.h"
 #include "tbb/blocked_range.h"

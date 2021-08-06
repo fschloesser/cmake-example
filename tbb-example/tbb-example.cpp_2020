@@ -35,6 +35,7 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
+#include "tbb/tbb_stddef.h" // defines TBB_INTERFACE_VERSION 11102
 #include "tbb/task.h"
 #include "tbb/tick_count.h"
 #include "tbb/blocked_range.h"
@@ -407,7 +408,7 @@ struct parallel_reduceFibBody {
     //! Constructor fills sum with initial matrix
     parallel_reduceFibBody() : sum(Matrix1110), split_flag(0) {}
     //! Splitting constructor
-    parallel_reduceFibBody(parallel_reduceFibBody &other, oneapi::tbb::split)
+    parallel_reduceFibBody(parallel_reduceFibBody &other, tbb::split)
             : sum(Matrix1110),
               split_flag(1 /*note that it is split*/) {}
     //! Join point
@@ -415,7 +416,7 @@ struct parallel_reduceFibBody {
         sum = sum * s.sum;
     }
     //! Process multiplications
-    void operator()(const oneapi::tbb::blocked_range<int> &r) {
+    void operator()(const tbb::blocked_range<int> &r) {
         for (int k = r.begin() + split_flag; k < r.end(); ++k)
             sum = sum * Matrix1110;
         split_flag = 0; // reset flag, because this method can be reused for next range
@@ -424,7 +425,7 @@ struct parallel_reduceFibBody {
 //! Root function
 value parallel_reduceFib(int n) {
     parallel_reduceFibBody b;
-    oneapi::tbb::parallel_reduce(oneapi::tbb::blocked_range<int>(2, n, 3),
+    tbb::parallel_reduce(tbb::blocked_range<int>(2, n, 3),
                                  b); // do parallel reduce on range [2, n) for b
     return b.sum.v[0][0];
 }
@@ -441,7 +442,7 @@ struct parallel_scanFibBody {
     //! Constructor sets product to identity matrix
     parallel_scanFibBody(value *output_) : product(MatrixIdentity), output(output_) {}
     //! Splitting constructor
-    parallel_scanFibBody(parallel_scanFibBody &b, oneapi::tbb::split)
+    parallel_scanFibBody(parallel_scanFibBody &b, tbb::split)
             : product(MatrixIdentity),
               output(b.output) {}
     //! Method for merging summary information from a, which was split off from *this, into *this.
@@ -460,7 +461,7 @@ struct parallel_scanFibBody {
     /** Tag indicates whether is is the final scan over the range, or
         just a helper "prescan" that is computing a partial reduction. */
     template <typename Tag>
-    void operator()(const oneapi::tbb::blocked_range<int> &r, Tag tag) {
+    void operator()(const tbb::blocked_range<int> &r, Tag tag) {
         for (int k = r.begin(); k < r.end(); ++k) {
             // Code performs an "exclusive" scan, which outputs a value *before* updating the product.
             // For an "inclusive" scan, output the value after the update.
@@ -474,7 +475,7 @@ struct parallel_scanFibBody {
 value parallel_scanFib(int n) {
     value *output = new value[n];
     parallel_scanFibBody b(output);
-    oneapi::tbb::parallel_scan(oneapi::tbb::blocked_range<int>(0, n, 3), b);
+    tbb::parallel_scan(tbb::blocked_range<int>(0, n, 3), b);
     // output[0..n-1] now contains the Fibonacci sequence (modulo integer wrap-around).
     // Check the last two values for correctness.
     assert(n < 2 || output[n - 2] + output[n - 1] == b.product.v[0][1]);
@@ -503,7 +504,7 @@ void IntRange::set_from_string(const char *s) {
 }
 
 //! Tick count for start
-static oneapi::tbb::tick_count t0;
+static ::tbb::tick_count t0;
 
 //! Verbose output flag
 static bool Verbose = false;
@@ -514,11 +515,11 @@ value Measure(const char *name, MeasureFunc func, int n) {
     value result;
     if (Verbose)
         printf("%s", name);
-    t0 = oneapi::tbb::tick_count::now();
+    t0 = tbb::tick_count::now();
     for (int number = 2; number <= n; number++)
         result = func(number);
     if (Verbose)
-        printf("\t- in %f msec\n", (oneapi::tbb::tick_count::now() - t0).seconds() * 1000);
+        printf("\t- in %f msec\n", (tbb::tick_count::now() - t0).seconds() * 1000);
     return result;
 }
 
@@ -546,7 +547,7 @@ int main(int argc, char *argv[]) {
     // now in parallel
     for (unsigned long i = 0; i < ntrial; ++i) {
         for (int threads = NThread.low; threads <= NThread.high; threads *= 2) {
-            oneapi::tbb::global_control c(oneapi::tbb::global_control::max_allowed_parallelism,
+            tbb::global_control c(tbb::global_control::max_allowed_parallelism,
                                           threads);
             if (Verbose)
                 printf("\nThreads number is %d\n", threads);
@@ -554,11 +555,11 @@ int main(int argc, char *argv[]) {
             sum = Measure("Shared serial (mutex)\t", SharedSerialFib<std::mutex>, NumbersCount);
             assert(result == sum);
             sum = Measure("Shared serial (spin_mutex)",
-                          SharedSerialFib<oneapi::tbb::spin_mutex>,
+                          SharedSerialFib<tbb::spin_mutex>,
                           NumbersCount);
             assert(result == sum);
             sum = Measure("Shared serial (queuing_mutex)",
-                          SharedSerialFib<oneapi::tbb::queuing_mutex>,
+                          SharedSerialFib<tbb::queuing_mutex>,
                           NumbersCount);
             assert(result == sum);
             sum = Measure("Shared serial (Conc.HashTable)", ConcurrentHashSerialFib, NumbersCount);
