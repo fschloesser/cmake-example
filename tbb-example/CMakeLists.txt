@@ -12,37 +12,37 @@ list(APPEND CMAKE_MODULE_PATH ${THIS_TBB_DIR}/common/cmake/modules/)
 
 # find_package will search for available TBBConfig using variables CMAKE_PREFIX_PATH and TBB_DIR.
 # if find_package fails, the user can pass TBB_LIBRARY_DIR and TBB_INCLUDE_DIR
-#find_package(TBB 2020 QUIET COMPONENTS tbb)
-find_package(TBB 2021 QUIET COMPONENTS tbb)
+find_package(TBB 2020 QUIET COMPONENTS tbb)
+#find_package(TBB 2021 QUIET COMPONENTS tbb)
 #find_package(TBB QUIET COMPONENTS tbb)
 if(TBB_FOUND)
     set(TBB_IMPORTED_TARGET TBB::tbb)
     message(STATUS "INFO: TBB VERSION ${TBB_VERSION}")
     message(STATUS "INFO: TBB INTERFACE ${TBB_INTERFACE_VERSION}")
 else()
-    # TBB 2021
-    find_library(TBB_LIBRARY
-        NAMES libtbb.so.12 tbb
-        HINTS ${TBB_LIBRARY_DIR})
-    set(TBB_IMPORTED_TARGET ${TBB_LIBRARY})
-    set(TBB_VERSION 2021)
-    if(TBB_LIBRARY)
-        find_path(TBB_INCLUDE_DIR
-            NAMES oneapi/tbb/tick_count.h # TBB 2021
-            REQUIRED
-            HINTS ${THIS_TBB_DIR}/include)
-    else()
+    ## TBB 2021
+    #find_library(TBB_LIBRARY
+    #    NAMES libtbb.so.12 tbb
+    #    HINTS ${TBB_LIBRARY_DIR})
+    #set(TBB_IMPORTED_TARGET ${TBB_LIBRARY})
+    #set(TBB_VERSION 2021)
+    #if(TBB_LIBRARY)
+    #    find_path(TBB_INCLUDE_DIR
+    #        NAMES oneapi/tbb/tick_count.h # TBB 2021
+    #        REQUIRED
+    #        HINTS ${THIS_TBB_DIR}/include)
+    #else()
         if(TBB_LIBRARY)
             # TBB 2020
-            #find_library(TBB_LIBRARY
-            #    NAMES libtbb.so.2 tbb
-            #    HINTS ${TBB_LIBRARY_DIR})
-            #set(TBB_VERSION 2020)
-            #if(TBB_LIBRARY)
-            #    find_path(TBB_INCLUDE_DIR
-            #        NAMES tbb/tick_count.h # TBB 2020
-            #        REQUIRED
-            #        HINTS ${THIS_TBB_DIR}/include)
+            find_library(TBB_LIBRARY
+                NAMES libtbb.so.2 tbb
+                HINTS ${TBB_LIBRARY_DIR})
+            set(TBB_VERSION 2020)
+            if(TBB_LIBRARY)
+                find_path(TBB_INCLUDE_DIR
+                    NAMES tbb/tick_count.h # TBB 2020
+                    REQUIRED
+                    HINTS ${THIS_TBB_DIR}/include)
             else()
                 option(TBB_TEST OFF)
                 option(TBB_EXAMPLES OFF)
@@ -58,6 +58,7 @@ message(STATUS "---------")
 message(STATUS "INFO: TBB LIBRARY ${TBB_LIBRARY}")
 message(STATUS "INFO: TBB VERSION ${TBB_VERSION}")
 message(STATUS "INFO: TBB INTERFACE ${TBB_INTERFACE_VERSION}")
+message(STATUS "INFO: TBB INCLUDE ${TBB_INCLDUE_DIR}")
 
 target_link_libraries(tbb-example
     ${TBB_IMPORTED_TARGET}          # Link TBB imported targets to the executable; "TBB::tbb" can be used instead of "${TBB_IMPORTED_TARGETS}".
