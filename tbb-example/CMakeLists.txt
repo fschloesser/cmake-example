@@ -8,6 +8,7 @@ set(CXX_STANDARD_REQUIRED ON)
 add_executable(tbb-example tbb-example.cpp)
 
 set(THIS_TBB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/tbb/)
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules/)
 
 # find_package will search for available TBBConfig using variables CMAKE_PREFIX_PATH and TBB_DIR.
 # if find_package fails, the user can pass TBB_LIBRARY_DIR and TBB_INCLUDE_DIR
@@ -25,8 +26,7 @@ endif()
 find_package(Threads REQUIRED)
 
 target_link_libraries(tbb-example
-    PRIVATE TBB::tbb Threads::Threads $<$<PLATFORM_ID:Linux>:rt>
-    INTERFACE ${Quadmath_IMPORTED_TARGET} ${GMP_LIBRARIES})
+    PRIVATE TBB::tbb Threads::Threads $<$<PLATFORM_ID:Linux>:rt>)
 target_compile_options(tbb-example
     PRIVATE ${TBB_CXX_STD_FLAG})
 
