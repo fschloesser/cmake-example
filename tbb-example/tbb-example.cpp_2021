@@ -37,6 +37,7 @@
 #include <atomic>
 #include <mutex>
 
+#include "oneapi/tbb/version.h" // defines TBB_INTERFACE_VERSION 12030
 #include "oneapi/tbb/tick_count.h"
 #include "oneapi/tbb/blocked_range.h"
 #include "oneapi/tbb/concurrent_vector.h"
