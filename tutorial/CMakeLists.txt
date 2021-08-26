@@ -10,6 +10,11 @@ project(cmake-example VERSION 1.0)
 
 # add the subdirectory apple to the project
 add_subdirectory(apple)
+<<<<<<< Updated upstream
+# add the subdirectory pear to the project
+add_subdirectory(pear)
+# add the subdirectory orange to the project
+add_subdirectory(orange)
 
 # find package Boost version 1.72 and the asio component
 find_package(Boost 1.72 REQUIRED COMPONENTS chrono)
