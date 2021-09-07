@@ -20,8 +20,8 @@ find_or_download_package(
     CONFIGURE_ARGS -DTBB_TEST=OFF -DTBB_EXAMPLES=OFF -DTBB4PY_BUILD=OFF)# -DBUILD_SHARED_LIBS=ON)
 find_package(Threads REQUIRED)
 
-target_include_directories(tbb-helper INTERFACE
-    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/_deps/local/include>)
+#target_include_directories(tbb-helper INTERFACE
+#    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/_deps/local/include>)
 
 target_link_libraries(tbb-helper
     INTERFACE TBB::tbb Threads::Threads $<$<PLATFORM_ID:Linux>:rt>)
