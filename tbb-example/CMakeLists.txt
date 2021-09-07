@@ -7,7 +7,7 @@ set(CXX_STANDARD_REQUIRED ON)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules/)
 
-add_executable(tbb-example tbb-example.cpp)
+add_library(tbb-helper INTERFACE)
 
 # Utilities to automatically download missing dependencies
 include(cmake/Dependencies.cmake)
@@ -20,11 +20,14 @@ find_or_download_package(
     CONFIGURE_ARGS -DTBB_TEST=OFF -DTBB_EXAMPLES=OFF -DTBB4PY_BUILD=OFF)# -DBUILD_SHARED_LIBS=ON)
 find_package(Threads REQUIRED)
 
-target_include_directories(tbb-example
-    PUBLIC ${PROJECT_BINARY_DIR}/_deps/tbb-src/include)
+target_include_directories(tbb-helper INTERFACE
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/_deps/local/include>)
 
-target_link_libraries(tbb-example
-    PRIVATE TBB::tbb Threads::Threads $<$<PLATFORM_ID:Linux>:rt>)
-target_compile_options(tbb-example
+target_link_libraries(tbb-helper
+    INTERFACE TBB::tbb Threads::Threads $<$<PLATFORM_ID:Linux>:rt>)
+target_compile_options(tbb-helper
     PRIVATE ${TBB_CXX_STD_FLAG})
 
+add_executable(tbb-example tbb-example.cpp)
+
+target_link_libraries(tbb-example tbb-helper)
