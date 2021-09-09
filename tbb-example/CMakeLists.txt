@@ -17,7 +17,7 @@ find_or_download_package(
     URL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.3.0.tar.gz
     COMPONENTS tbb
     URL_HASH SHA256=8f616561603695bbb83871875d2c6051ea28f8187dbe59299961369904d1d49e
-    CONFIGURE_ARGS -DTBB_TEST=OFF -DTBB_EXAMPLES=OFF -DTBB4PY_BUILD=OFF)# -DBUILD_SHARED_LIBS=ON)
+    CONFIGURE_ARGS -DTBB_TEST=OFF -DTBB_EXAMPLES=OFF -DTBB4PY_BUILD=OFF -DBUILD_SHARED_LIBS=ON)
 find_package(Threads REQUIRED)
 
 #target_include_directories(tbb-helper INTERFACE
